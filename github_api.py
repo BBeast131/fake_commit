@@ -18,7 +18,6 @@ def create_github_repo(repo_name):
     res.raise_for_status()
     return res.json()["clone_url"]
 
-
 def create_pull_request(repo_name):
     url = f"https://api.github.com/repos/{GITHUB_USERNAME}/{repo_name}/pulls"
     headers = {
@@ -35,4 +34,4 @@ def create_pull_request(repo_name):
         requests.post(url, json=data, headers=headers)
     except:
         pass  # safe to fail silently here
-    
+

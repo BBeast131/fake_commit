@@ -1,6 +1,6 @@
 COMMIT_SETTINGS = {
-    "start_year": 2018,
-    "end_year": 2024,
+    "start_date": "2022-03-15",  # YYYY-MM-DD format
+    "end_date": "2024-06-30",    # YYYY-MM-DD format
     "max_commits_per_day": 5,
-    "commit_probability": 0.8,  # 80% chance of committing on workdays
+    "commit_probability": 0.8,  # chance of committing on workdays
 }

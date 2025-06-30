@@ -6,6 +6,8 @@ import uuid
 from datetime import date, datetime, timedelta
 from pathlib import Path
 
+# how can I get yolo badge
+
 from github_api import create_github_repo, create_pull_request
 from commit_generator import (
     initialize_local_repo,

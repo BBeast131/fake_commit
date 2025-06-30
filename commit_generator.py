@@ -6,6 +6,26 @@ from pathlib import Path
 
 COMMIT_MESSAGES = ["fix bug", "update readme", "refactor code", "improve docs", "add tests"]
 
+LANG_EXTENSIONS = [
+    "py", "js", "ipynb", "ts", "html", "liquid", "php", "java", "cs", "kt", "swift"
+]
+
+def modify_random_files(path: Path, commit_dt):
+    num_files = random.randint(1, 3)  # 1 to 3 files per commit
+    chosen_exts = random.sample(LANG_EXTENSIONS, num_files)
+
+    for ext in chosen_exts:
+        file_name = f"file_{ext}.{ext}"
+        file_path = path / file_name
+        content = f"# Modified at {commit_dt.isoformat()} for language {ext}\n"
+        
+        if file_path.exists():
+            with open(file_path, "a") as f:
+                f.write(content)
+        else:
+            with open(file_path, "w") as f:
+                f.write(content)
+
 def initialize_local_repo(path):
     subprocess.run(["git", "init"], cwd=path)
     Path(path, "log.txt").write_text("initial\n")
@@ -25,15 +45,16 @@ def generate_commits(commit_day, max_commits):
     return [(commit_day.replace(hour=t, minute=random.randint(0,59), second=random.randint(0,59))) for t in times]
 
 def commit_with_date(path, commit_dt):
-    with open(Path(path, "log.txt"), "a") as f:
-        f.write(f"{commit_dt.isoformat()}\n")
-    subprocess.run(["git", "add", "log.txt"], cwd=path)
+    modify_random_files(Path(path), commit_dt)  # <-- add this to modify files randomly
+
+    subprocess.run(["git", "add", "."], cwd=path)  # add all changes, not just log.txt
     env = os.environ.copy()
     date_str = commit_dt.strftime("%Y-%m-%dT%H:%M:%S")
     env["GIT_AUTHOR_DATE"] = date_str
     env["GIT_COMMITTER_DATE"] = date_str
     msg = random.choice(COMMIT_MESSAGES)
     subprocess.run(["git", "commit", "-m", msg], cwd=path, env=env)
+
 
 def push_to_github(local_path, remote_url):
     subprocess.run(["git", "branch", "-M", "main"], cwd=local_path)

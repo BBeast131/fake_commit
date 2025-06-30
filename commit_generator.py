@@ -12,10 +12,10 @@ def initialize_local_repo(path):
     subprocess.run(["git", "add", "log.txt"], cwd=path)
     subprocess.run(["git", "commit", "-m", "initial commit"], cwd=path)
 
-def generate_workdays(start_date, end_date):
+def generate_workdays(start_date, end_date, commit_probability):
     day = start_date
     while day <= end_date:
-        if day.weekday() < 5 and random.random() > 0.2:
+        if day.weekday() < 5 and random.random() < commit_probability:
             yield day
         day += timedelta(days=1)
 
@@ -39,4 +39,3 @@ def push_to_github(local_path, remote_url):
     subprocess.run(["git", "branch", "-M", "main"], cwd=local_path)
     subprocess.run(["git", "remote", "add", "origin", remote_url], cwd=local_path)
     subprocess.run(["git", "push", "-u", "origin", "main"], cwd=local_path)
-

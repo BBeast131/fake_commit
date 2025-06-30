@@ -1,8 +1,10 @@
+### fake_commit_tool/github_api.py
+
 import os
 import requests
+from utils import get_github_credentials
 
-GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
-GITHUB_USERNAME = os.environ.get("GITHUB_USERNAME")
+GITHUB_TOKEN, GITHUB_USERNAME = get_github_credentials()
 
 def create_github_repo(repo_name):
     headers = {

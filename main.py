@@ -13,11 +13,16 @@ from commit_generator import (
     commit_with_date,
     push_to_github,
 )
+from settings import COMMIT_SETTINGS
 
 REPO_PREFIX = "fake-commit-repo"
 
 
-def main(start_year=2020, end_year=2024, max_commits_per_day=5):
+def main():
+    start_year = COMMIT_SETTINGS["start_year"]
+    end_year = COMMIT_SETTINGS["end_year"]
+    max_commits_per_day = COMMIT_SETTINGS["max_commits_per_day"]
+
     for year in range(start_year, end_year + 1):
         repo_name = f"{REPO_PREFIX}-{year}"
         print(f"[+] Creating repo: {repo_name}")
@@ -30,7 +35,7 @@ def main(start_year=2020, end_year=2024, max_commits_per_day=5):
         start = date(year, 1, 1)
         end = date(year, 12, 31)
 
-        for commit_day in generate_workdays(start, end):
+        for commit_day in generate_workdays(start, end, COMMIT_SETTINGS["commit_probability"]):
             for dt in generate_commits(datetime.combine(commit_day, datetime.min.time()), max_commits_per_day):
                 commit_with_date(local_path, dt)
 
@@ -41,4 +46,3 @@ def main(start_year=2020, end_year=2024, max_commits_per_day=5):
 
 if __name__ == "__main__":
     main()
-

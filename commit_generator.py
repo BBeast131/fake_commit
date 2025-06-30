@@ -31,7 +31,6 @@ def generate_commits(commit_day, max_commits):
 def modify_random_files(path: Path, commit_dt):
     num_files = random.randint(1, 3)
     chosen_exts = random.sample(LANG_EXTENSIONS, num_files)
-
     for ext in chosen_exts:
         file_name = f"file_{ext}.{ext}"
         file_path = path / file_name
